@@ -46,6 +46,9 @@ export default {
     <div class="text-center">
         <img src="../assets/Fetch_Logo_Primary_Reversed_out_Fetch.png" alt="Fetch logo" class="w-48 m-auto">
         <h2 class="mt-4 font-bold text-xl">Find Your Future Best Friend</h2>
+        <div v-if="errorMessage" role="alert" class="alert alert-error alert-soft mt-4">
+            <span>{{ errorMessage }}</span>
+        </div>
         <div class="m-4 flex gap-4">
             <input v-model="name" type="text" placeholder="Name"
                 class="input bg-white placeholder-gray-400 text-black" />
