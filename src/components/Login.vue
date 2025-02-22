@@ -5,8 +5,11 @@ export default {
             message: ''
         };
     },
+    emits: ['login'],
     methods: {
-        test() {
+        login() {
+            console.log('loggin in..');
+            this.$emit('login');
         }
     },
     mounted() {
@@ -23,7 +26,7 @@ export default {
             <input type="text" placeholder="Name" class="input bg-white placeholder-gray-400 text-black" />
             <input type="text" placeholder="Email" class="input bg-white placeholder-gray-400 text-black" />
         </div>
-        <button class="btn btn-primary">Login</button>
+        <button class="btn btn-primary" @click="login">Login</button>
     </div>
 </template>
 

@@ -5,6 +5,7 @@ import Home from "./components/Home.vue";
 export default {
     components: {
         Login,
+        Home,
     },
     data() {
         return {
@@ -12,8 +13,9 @@ export default {
         };
     },
     methods: {
-        test() {
-        }
+        handleLogin() {
+            this.loggedIn = true;
+        },
     },
     mounted() {
         console.log('Component mounted');
@@ -23,7 +25,7 @@ export default {
 
 <template>
     <div class="w-screen h-screen flex justify-center items-center">
-        <Login v-if="!loggedIn" />
+        <Login v-if="!loggedIn" @login="handleLogin" />
         <Home v-else />
     </div>
 </template>
