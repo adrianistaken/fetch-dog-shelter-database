@@ -24,7 +24,7 @@ export default {
 </script>
 
 <template>
-    <div class="w-screen h-screen flex justify-center items-center">
+    <div class="min-h-screen w-full flex justify-center items-center overflow-x-hidden">
         <Login v-if="!loggedIn" @login="handleLogin" />
         <Home v-else />
     </div>
