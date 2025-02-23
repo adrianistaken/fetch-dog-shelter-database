@@ -1,12 +1,16 @@
 <script>
-export default {
+import Header from './Header.vue';
 
+export default {
+    components: {
+        Header,
+    },
 }
 </script>
 
 <template>
-    <div>
-        Hello from Home.vue :D
+    <div class="bg-white w-screen h-screen">
+        <Header />
     </div>
 </template>
 
