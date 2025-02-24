@@ -1,5 +1,5 @@
 <script>
-import axios from "axios";
+import { AuthService } from "../AuthService";
 
 export default {
     data() {
@@ -17,26 +17,17 @@ export default {
             this.errorMessage = "";
 
             try {
-                const response = await axios.post(
-                    "https://frontend-take-home-service.fetch.com/auth/login",
-                    {
-                        name: this.name,
-                        email: this.email,
-                    },
-                    { withCredentials: true }
-                )
+                const response = await AuthService.login(this.name, this.email);
 
-                if (response.status === 200) {
-                    this.$emit('login');
-                }
+                this.$emit("login");
             } catch (error) {
+                console.error("Error logging in:", error);
                 this.errorMessage = "Login failed. Please check your credentials.";
-                console.error("Login error:", error);
             } finally {
                 this.loading = false;
             }
-
         }
+
     },
     mounted() { }
 };

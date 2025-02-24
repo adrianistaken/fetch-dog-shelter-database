@@ -9,6 +9,8 @@ export default {
         Browse,
         Favorites,
     },
+    methods: {
+    },
     data() {
         return {
             showingSearch: true,
