@@ -1,7 +1,12 @@
 <script>
-export default {
+import { inject } from "vue";
 
-}
+export default {
+    setup() {
+        const handleLogout = inject("handleLogout");
+        return { handleLogout };
+    }
+};
 </script>
 
 <template>
@@ -10,7 +15,7 @@ export default {
             <img src="../assets/Fetch_Logo_Secondary_Horizontal_ReversedOut_Fetch.png" alt="" class="w-40">
         </div>
         <div>
-            Logout
+            <button class="cursor-pointer" @click="handleLogout">Logout</button>
         </div>
     </div>
 </template>

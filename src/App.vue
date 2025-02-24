@@ -1,32 +1,48 @@
 <script>
-import Login from "./components/Login.vue";
-import Home from "./components/Home.vue";
+import LoginPage from "./components/LoginPage.vue";
+import HomePage from "./components/HomePage.vue";
+import { AuthService } from "./AuthService";
+import { ref, provide, onMounted } from "vue";
 
 export default {
     components: {
-        Login,
-        Home,
+        LoginPage,
+        HomePage,
     },
-    data() {
-        return {
-            loggedIn: false,
+    setup() {
+        const loggedIn = ref(false);
+
+        const handleLogin = () => {
+            loggedIn.value = true;
         };
+
+        const handleLogout = () => {
+            console.log("Logging out...");
+            AuthService.logout();
+            loggedIn.value = false;
+        };
+
+        const checkAuthentication = async () => {
+            loggedIn.value = await AuthService.isAuthenticated();
+            console.log("Authentication status after refresh:", loggedIn.value);
+        };
+
+        onMounted(() => {
+            checkAuthentication();
+        });
+
+        provide("handleLogout", handleLogout);
+        provide("loggedIn", loggedIn);
+
+        return { loggedIn, handleLogin, handleLogout };
     },
-    methods: {
-        handleLogin() {
-            this.loggedIn = true;
-        },
-    },
-    mounted() {
-        console.log('Component mounted');
-    }
 };
 </script>
 
 <template>
     <div class="min-h-screen w-full flex justify-center items-center overflow-x-hidden">
-        <Login v-if="!loggedIn" @login="handleLogin" />
-        <Home v-else />
+        <LoginPage v-if="!loggedIn" @login="handleLogin" />
+        <HomePage v-else @logout="handleLogout" />
     </div>
 </template>
 
