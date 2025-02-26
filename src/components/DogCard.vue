@@ -34,6 +34,7 @@ export default {
             <h2 class="card-title text-2xl">{{ dog.name }}</h2>
             <p>Breed: {{ dog.breed }}</p>
             <p>Age: {{ dog.age }}</p>
+            <p>Zip Code: {{ dog.zip_code }}</p>
             <div class="card-actions justify-start">
                 <button class="btn btn-primary" :class="{ 'btn-secondary': isFavorited }" @click="toggleFavorite">
                     {{ isFavorited ? "Favorited" : "Favorite" }}
@@ -46,7 +47,7 @@ export default {
 <style scoped>
 .dog-card {
     width: 200px;
-    height: 300px;
+    height: 400px;
     margin: 10px;
     display: flex;
     flex-direction: column;
