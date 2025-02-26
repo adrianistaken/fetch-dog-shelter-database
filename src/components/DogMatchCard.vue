@@ -1,27 +1,8 @@
 <script>
-import { inject, computed } from "vue";
-
 export default {
     props: {
         dog: Object,
     },
-    setup(props) {
-        const favorites = inject("favorites");
-        const addFavorite = inject("addFavorite");
-        const removeFavorite = inject("removeFavorite");
-
-        const isFavorited = computed(() => favorites.value.some(fav => fav.id === props.dog.id));
-
-        const toggleFavorite = () => {
-            if (isFavorited.value) {
-                removeFavorite(props.dog.id);
-            } else {
-                addFavorite(props.dog);
-            }
-        };
-
-        return { isFavorited, toggleFavorite };
-    }
 };
 </script>
 
@@ -30,16 +11,11 @@ export default {
         <figure class="image-container">
             <img :src="dog.img" alt="Dog Image" class="dog-image" />
         </figure>
-        <div class="card-body p-4 rounded-b-sm">
-            <h2 class="card-title text-2xl">{{ dog.name }}</h2>
+        <div class="card-body p-4 rounded-b-sm text-xl">
+            <h2 class="card-title text-4xl justify-center">{{ dog.name }}</h2>
             <p>Breed: {{ dog.breed }}</p>
             <p>Age: {{ dog.age }}</p>
             <p>Zip Code: {{ dog.zip_code }}</p>
-            <div class="card-actions justify-start">
-                <button class="btn btn-primary" :class="{ 'btn-secondary': isFavorited }" @click="toggleFavorite">
-                    {{ isFavorited ? "Favorited" : "Favorite" }}
-                </button>
-            </div>
         </div>
     </div>
 </template>

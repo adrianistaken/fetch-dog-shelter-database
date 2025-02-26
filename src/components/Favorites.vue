@@ -1,18 +1,39 @@
 <script>
-import { inject } from "vue";
+import { inject, ref } from "vue";
 import DogCard from "./DogCard.vue";
+import FindMatch from "./FindMatch.vue";
+import { DogService } from "../Services/DogService";
 
 export default {
-    components: { DogCard },
+    components: { DogCard, FindMatch },
     setup() {
         const favorites = inject("favorites");
-        return { favorites };
+        const matchedDog = ref(null);
+
+        const findMatch = async () => {
+            try {
+                const favoriteIds = favorites.value.map(dog => dog.id);
+
+                const matchId = await DogService.getMatch(favoriteIds);
+                if (favoriteIds.includes(matchId)) {
+                    matchedDog.value = favorites.value.find(dog => dog.id === matchId);
+                } else {
+                    console.warn("Matched dog not in favorites..");
+                }
+            } catch (error) {
+                console.error("Error finding match:", error);
+            }
+        };
+
+        return { favorites, matchedDog, findMatch };
     },
 };
 </script>
 
 <template>
     <div>
+        <FindMatch :matchedDog="matchedDog" @findMatch="findMatch" />
+
         <div v-if="favorites.length === 0">No favorited dogs yet.</div>
         <div v-else class="dog-list">
             <DogCard v-for="dog in favorites" :key="dog.id" :dog="dog" />
