@@ -1,7 +1,7 @@
 <script>
 import { ref, onMounted } from "vue";
-import { DogService } from "../../DogService.js";
-import { AuthService } from "../AuthService.js";
+import { DogService } from "../Services/DogService.js";
+import { AuthService } from "../Services/AuthService.js";
 import DogCard from "./DogCard.vue";
 
 export default {
