@@ -15,9 +15,13 @@ export default {
             <img src="../assets/Fetch_Logo_Secondary_Horizontal_ReversedOut_Fetch.png" alt="" class="w-40">
         </div>
         <div>
-            <button class="btn btn-primary hover:btn-secondary" @click="handleLogout">Logout</button>
+            <button class="btn btn-primary hover:btn-secondary logout-button" @click="handleLogout">Logout</button>
         </div>
     </div>
 </template>
 
-<style></style>
+<style scoped>
+.logout-button {
+    font-family: "Lexend", serif;
+}
+</style>
