@@ -1,8 +1,9 @@
 <script>
 import LoginPage from "./components/LoginPage.vue";
 import HomePage from "./components/HomePage.vue";
-import { AuthService } from "./AuthService";
-import { ref, provide, onMounted } from "vue";
+import { AuthService } from "./Services/AuthService";
+import { DogService } from "./Services/DogService";
+import { ref, provide, onMounted, watch } from "vue";
 
 export default {
     components: {
@@ -11,6 +12,29 @@ export default {
     },
     setup() {
         const loggedIn = ref(false);
+        const favorites = ref([]);
+
+        const addFavorite = (dog) => {
+            if (!favorites.value.some(fav => fav.id === dog.id)) {
+                favorites.value.push(dog);
+            }
+        };
+
+        const removeFavorite = (dogId) => {
+            favorites.value = favorites.value.filter(dog => dog.id !== dogId);
+        };
+
+        const loadFavorites = async () => {
+            const savedIds = JSON.parse(localStorage.getItem("favoriteDogs")) || [];
+            if (savedIds.length > 0) {
+                try {
+                    const fetchedDogs = await DogService.getDogs(savedIds);
+                    favorites.value = fetchedDogs;
+                } catch (error) {
+                    console.error("Error loading favorites:", error);
+                }
+            }
+        };
 
         const handleLogin = () => {
             loggedIn.value = true;
@@ -27,12 +51,23 @@ export default {
             console.log("Authentication status after refresh:", loggedIn.value);
         };
 
-        onMounted(() => {
-            checkAuthentication();
-        });
+        watch(favorites, (newFavorites) => {
+            const favoriteIds = newFavorites.map(dog => dog.id);
+            localStorage.setItem("favoriteDogs", JSON.stringify(favoriteIds));
+        }, { deep: true });
+
+        provide("favorites", favorites);
+        provide("addFavorite", addFavorite);
+        provide("removeFavorite", removeFavorite);
 
         provide("handleLogout", handleLogout);
         provide("loggedIn", loggedIn);
+
+
+        onMounted(() => {
+            loadFavorites();
+            checkAuthentication();
+        });
 
         return { loggedIn, handleLogin, handleLogout };
     },

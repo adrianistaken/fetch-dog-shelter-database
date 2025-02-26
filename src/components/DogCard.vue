@@ -1,8 +1,27 @@
 <script>
+import { inject, computed } from "vue";
+
 export default {
     props: {
         dog: Object,
     },
+    setup(props) {
+        const favorites = inject("favorites");
+        const addFavorite = inject("addFavorite");
+        const removeFavorite = inject("removeFavorite");
+
+        const isFavorited = computed(() => favorites.value.some(fav => fav.id === props.dog.id));
+
+        const toggleFavorite = () => {
+            if (isFavorited.value) {
+                removeFavorite(props.dog.id);
+            } else {
+                addFavorite(props.dog);
+            }
+        };
+
+        return { isFavorited, toggleFavorite };
+    }
 };
 </script>
 
@@ -16,7 +35,9 @@ export default {
             <p>Breed: {{ dog.breed }}</p>
             <p>Age: {{ dog.age }}</p>
             <div class="card-actions justify-start">
-                <button class="btn btn-primary">Favorite</button>
+                <button class="btn btn-primary" :class="{ 'btn-secondary': isFavorited }" @click="toggleFavorite">
+                    {{ isFavorited ? "Favorited" : "Favorite" }}
+                </button>
             </div>
         </div>
     </div>
@@ -53,5 +74,10 @@ export default {
     object-fit: cover;
     border-radius: 4px;
     border-radius: 4px 4px 0px 0px;
+}
+
+button.favorited {
+    background-color: red;
+    color: white;
 }
 </style>
