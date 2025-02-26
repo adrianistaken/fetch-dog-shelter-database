@@ -22,17 +22,19 @@ export const DogService = {
       if (ageMin) params.append("ageMin", ageMin);
       if (ageMax) params.append("ageMax", ageMax);
       if (size) params.append("size", size);
-      if (from) params.append("from", from);
+      if (from) {
+        params.append("from", from);
+      }
       if (sort) params.append("sort", sort);
 
       const response = await axios.get(
         `${API_BASE_URL}/dogs/search?${params.toString()}`,
         {
           withCredentials: true,
+          headers: { "Content-Type": "application/json" },
         },
       );
 
-      console.log("Found dog IDs:", response.data.resultIds);
       return response.data;
     } catch (error) {
       console.error("Error searching for dogs:", error);
@@ -65,7 +67,6 @@ export const DogService = {
         headers: { "Content-Type": "application/json" },
       });
 
-      console.log("Matched Dog ID:", response.data.match);
       return response.data.match;
     } catch (error) {
       console.error("Error getting a match:", error);

@@ -29,7 +29,7 @@ export default {
     margin: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
     justify-content: space-between;
     background-color: white;
     color: black;
