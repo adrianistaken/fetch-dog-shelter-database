@@ -43,6 +43,5 @@ body {
 .dog-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    padding: 20px;
+    gap: 20px;
 }

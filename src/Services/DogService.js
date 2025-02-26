@@ -58,6 +58,20 @@ export const DogService = {
     }
   },
 
+  async getDogBreeds() {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/dogs/breeds`, {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" },
+      });
+
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching dog breeds:", error);
+      throw error;
+    }
+  },
+
   async getMatch(dogIds) {
     try {
       if (!dogIds.length) return null;

@@ -63,7 +63,6 @@ export default {
         provide("handleLogout", handleLogout);
         provide("loggedIn", loggedIn);
 
-
         onMounted(() => {
             loadFavorites();
             checkAuthentication();
