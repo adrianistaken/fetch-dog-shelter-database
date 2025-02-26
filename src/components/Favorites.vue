@@ -5,7 +5,7 @@ import DogCard from "./DogCard.vue";
 export default {
     components: { DogCard },
     setup() {
-        const favorites = inject("favorites"); // ✅ Get favorites list
+        const favorites = inject("favorites");
         return { favorites };
     },
 };
@@ -20,11 +20,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.dog-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-}
-</style>
+<style scoped></style>

@@ -26,13 +26,13 @@ export default {
             <div class="tabs tabs-border">
                 <input type="radio" name="home_tabs" class="tab text-xl bg-base-100 !rounded-b-none" aria-label="Browse"
                     checked="checked" />
-                <div class="tab-content bg-base-100 p-10">
+                <div class="tab-content bg-base-100 p-10 rounded-tr-sm">
                     <Browse />
                 </div>
 
                 <input type="radio" name="home_tabs" class="tab text-xl bg-primary !rounded-b-none"
                     aria-label="Favorites" />
-                <div class="tab-content bg-primary p-10">
+                <div class="tab-content bg-primary p-10 rounded-tr-sm">
                     <Favorites />
                 </div>
             </div>

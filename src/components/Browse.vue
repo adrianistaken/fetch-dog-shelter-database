@@ -103,11 +103,4 @@ export default {
     </div>
 </template>
 
-<style scoped>
-.dog-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-    padding: 20px;
-}
-</style>
+<style scoped></style>
