@@ -20,7 +20,12 @@ export default {
         const nextFrom = ref(null);
         const prevFrom = ref(null);
         const perPage = 12;
+
+        const selectedZipCodes = ref([]);
+        const selectedAgeMin = ref(null);
+        const selectedAgeMax = ref(null);
         const sortOrder = ref("asc"); // Default sorting order
+        const sortField = ref("breed"); // Default sorting field (breed, name, age)
 
         const extractCursor = (url) => new URLSearchParams(url.split("?")[1]).get("from");
 
@@ -35,12 +40,19 @@ export default {
                     throw new Error("User is not authenticated, cannot fetch dogs.");
                 }
 
-                const searchResults = await DogService.searchDogs({
-                    breeds: selectedBreed.value === "All" ? [] : [selectedBreed.value],
+                const breedFilter = selectedBreed.value === "All" ? [] : [selectedBreed.value];
+
+                const searchParams = {
+                    breeds: breedFilter.length ? breedFilter : undefined,
+                    zipCodes: selectedZipCodes.value.length > 0 ? selectedZipCodes.value : undefined,
+                    ageMin: selectedAgeMin.value || undefined,
+                    ageMax: selectedAgeMax.value || undefined,
                     size: perPage,
-                    sort: `breed:${sortOrder.value}`,
+                    sort: `${sortField.value}:${sortOrder.value}`,
                     from: fromCursor,
-                });
+                };
+
+                const searchResults = await DogService.searchDogs(searchParams);
 
                 dogs.value = searchResults.resultIds.length > 0
                     ? await DogService.getDogs(searchResults.resultIds)
@@ -71,6 +83,20 @@ export default {
             fetchDogs();
         };
 
+        const handleApplyFilters = ({ zipCodes, ageMin, ageMax }) => {
+            selectedZipCodes.value = zipCodes;
+            selectedAgeMin.value = ageMin;
+            selectedAgeMax.value = ageMax;
+            currentPage.value = 1;
+            fetchDogs();
+        };
+
+        const updateSortField = (field) => {
+            sortField.value = field;
+            currentPage.value = 1;
+            fetchDogs();
+        };
+
         const nextPage = () => {
             if (nextFrom.value) {
                 currentPage.value++;
@@ -87,6 +113,7 @@ export default {
 
         const toggleSortOrder = () => {
             sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+            currentPage.value = 1;
             fetchDogs();
         };
 
@@ -106,9 +133,8 @@ export default {
 
         return {
             dogs, dogBreeds, selectedBreed, loading, errorMessage,
-            currentPage, nextPage, prevPage, nextFrom, prevFrom,
-            handleBreedSelected, sortOrder,
-            toggleSortOrder,
+            currentPage, nextPage, prevPage, perPage, selectedZipCodes, selectedAgeMin, selectedAgeMax, nextFrom, prevFrom,
+            handleBreedSelected, handleApplyFilters, updateSortField, sortOrder, sortField, toggleSortOrder,
         };
     },
 };
@@ -118,7 +144,8 @@ export default {
     <div>
         <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
 
-        <DogListFilter :dogBreeds="dogBreeds" :sortOrder="sortOrder" @breedSelected="handleBreedSelected"
+        <DogListFilter :dogBreeds="dogBreeds" :sortOrder="sortOrder" :sortField="sortField"
+            @breedSelected="handleBreedSelected" @updateSortField="updateSortField" @applyFilters="handleApplyFilters"
             @updateSortOrder="toggleSortOrder" />
 
         <div v-if="loading">Loading dogs...</div>
