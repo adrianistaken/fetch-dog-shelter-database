@@ -1,5 +1,5 @@
 <script>
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed } from "vue";
 import { DogService } from "../Services/DogService.js";
 import { AuthService } from "../Services/AuthService.js";
 import DogCard from "./DogCard.vue";
@@ -20,6 +20,7 @@ export default {
         const nextFrom = ref(null);
         const prevFrom = ref(null);
         const perPage = 12;
+        const sortOrder = ref("asc"); // Default sorting order
 
         const extractCursor = (url) => new URLSearchParams(url.split("?")[1]).get("from");
 
@@ -37,7 +38,7 @@ export default {
                 const searchResults = await DogService.searchDogs({
                     breeds: selectedBreed.value === "All" ? [] : [selectedBreed.value],
                     size: perPage,
-                    sort: "breed:asc",
+                    sort: `breed:${sortOrder.value}`,
                     from: fromCursor,
                 });
 
@@ -67,7 +68,7 @@ export default {
         const handleBreedSelected = (breed) => {
             selectedBreed.value = breed;
             currentPage.value = 1;
-            fetchDogs(); // Automatically fetch based on the new breed
+            fetchDogs();
         };
 
         const nextPage = () => {
@@ -82,6 +83,11 @@ export default {
                 currentPage.value--;
                 fetchDogs(prevFrom.value);
             }
+        };
+
+        const toggleSortOrder = () => {
+            sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
+            fetchDogs();
         };
 
         onMounted(async () => {
@@ -101,7 +107,8 @@ export default {
         return {
             dogs, dogBreeds, selectedBreed, loading, errorMessage,
             currentPage, nextPage, prevPage, nextFrom, prevFrom,
-            handleBreedSelected
+            handleBreedSelected, sortOrder,
+            toggleSortOrder,
         };
     },
 };
@@ -111,7 +118,8 @@ export default {
     <div>
         <div v-if="errorMessage" class="error">{{ errorMessage }}</div>
 
-        <DogListFilter :dogBreeds="dogBreeds" @breedSelected="handleBreedSelected" />
+        <DogListFilter :dogBreeds="dogBreeds" :sortOrder="sortOrder" @breedSelected="handleBreedSelected"
+            @updateSortOrder="toggleSortOrder" />
 
         <div v-if="loading">Loading dogs...</div>
         <div v-if="dogs.length" class="dog-list">

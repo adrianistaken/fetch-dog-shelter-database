@@ -2,8 +2,9 @@
 export default {
     props: {
         dogBreeds: Array,
+        sortOrder: String,
     },
-    emits: ["breedSelected"],
+    emits: ["breedSelected", "updateSortOrder"],
     data() {
         return {
             currentBreed: "All",
@@ -20,7 +21,7 @@ export default {
 </script>
 
 <template>
-    <div class="bg-base-200 text-black flex items-center h-20 my-5 rounded-sm px-10">
+    <div class="bg-base-200 text-black flex items-center h-20 my-5 rounded-sm px-10 gap-4">
         <button class="btn btn-primary" popovertarget="dog-breeds" style="anchor-name:--anchor-1">
             Breed: {{ currentBreed }}
         </button>
@@ -34,7 +35,20 @@ export default {
                 <a>{{ breed }}</a>
             </li>
         </ul>
+
+        <div :class="currentBreed !== 'All' ? 'tooltip cursor-not-allowed' : ''"
+            data-tip="Sorting only works when viewing all breeds">
+            <button class="btn btn-primary sort-button" @click="$emit('updateSortOrder')"
+                :disabled="currentBreed !== 'All'">
+                Sort: {{ sortOrder === "asc" ? "A-Z" : "Z-A" }}
+            </button>
+        </div>
+
     </div>
 </template>
 
-<style></style>
+<style scoped>
+.sort-button:disabled {
+    background-color: #fbaa00;
+}
+</style>
