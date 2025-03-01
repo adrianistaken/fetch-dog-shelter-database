@@ -1,9 +1,31 @@
-<<<<<<< HEAD
-# fetch-take-home
-=======
-# Vue 3 + Vite
+# 🐶 Dog Finder
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+![Dog Finder Preview](https://i.ibb.co/k2Tb6ZHw/Screenshot-2025-03-01-at-7-24-06-AM.png)
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
->>>>>>> 992167f (Initial commit)
+## **📌 Running the Project Locally**
+
+### **1️⃣ Clone the Repository**
+```sh
+git clone https://github.com/adrianistaken/fetch-take-home.git
+cd fetch-take-home
+```
+
+### **2️⃣ Install Dependencies**
+```
+npm install
+```
+
+### **3️⃣ Start the Development Server**
+```
+npm run dev
+```
+
+### **4️⃣ Build for Production (Optional)**
+```
+npm run build
+```
+
+### **📞 Contact**
+📧 Email: [adrian.rodriguez.dev@gmail.com](adrian.rodriguez.dev@gmail.com)
+
+🐙 GitHub: [adrianistaken](https://github.com/adrianistaken)
