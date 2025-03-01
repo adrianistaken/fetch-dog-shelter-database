@@ -44,10 +44,11 @@ export default {
 </script>
 
 <template>
-    <div class="bg-base-200 text-black flex justify-between items-center h-20 my-5 rounded-sm px-10 gap-4">
-        <div class="flex gap-4">
-            <!-- Breed selector -->
-            <button class="btn dropdown-button" popovertarget="dog-breeds" style="anchor-name:--anchor-1">
+    <div
+        class="bg-base-200 text-black flex justify-between items-center h-20 my-5 rounded-sm px-10 gap-4 dog-filters-container">
+        <!-- Breed selector -->
+        <div class="breed-filter">
+            <button class="btn dropdown-button w-full" popovertarget="dog-breeds" style="anchor-name:--anchor-1">
                 Breed: {{ currentBreed }}
             </button>
             <!-- Breed dropdown -->
@@ -60,33 +61,30 @@ export default {
                     <a>{{ breed }}</a>
                 </li>
             </ul>
-
-            <!-- Breed ordering -->
-            <div :class="blockSortOrderToggle ? 'tooltip cursor-not-allowed' : ''"
-                data-tip="Sorting requires more filters">
-                <button class="btn dropdown-button sort-button" @click="$emit('updateSortOrder')"
-                    :disabled="blockSortOrderToggle">
-                    Sort: {{ sortOrder === "asc" ? "Asce" : "Desc" }}
-                </button>
-            </div>
-
         </div>
 
-        <div class="flex gap-4">
+        <div class="zip-filter">
             <!-- ZIP Code -->
-            <input type="text" placeholder="ZIP Code(s), comma-separated" class="input zip-input" v-model="zipInput" />
+            <input type="text" placeholder="ZIP Code(s), comma-separated" class="input w-full zip-input"
+                v-model="zipInput" />
+        </div>
 
+        <div class="min-age-filter">
             <!-- Age Min/Max -->
             <input type="number" class="input validator age-input" required placeholder="Min Age" min="0" max="30"
                 title="Min Age" v-model="ageMin" @change="updateAge" />
             <!-- <p class="validator-hint">Must be 0 or above</p> -->
+        </div>
 
+        <div class="max-age-filter">
             <input type="number" class="input validator age-input" required placeholder="Max Age" min="0" max="30"
                 title="Max Age" v-model="ageMax" @change="updateAge" />
             <!-- <p class="validator-hint">Must be 30 or below</p> -->
+        </div>
 
+        <div class="sort-filter">
             <!-- Sorting selector -->
-            <button class="btn dropdown-button" popovertarget="sort-options" style="anchor-name:--anchor-2">
+            <button class="btn dropdown-button w-full" popovertarget="sort-options" style="anchor-name:--anchor-2">
                 Sort by: {{ sortField }}
             </button>
             <!-- Sort options dropdown -->
@@ -96,9 +94,22 @@ export default {
                 <li class="sort-list-item" @click="updateSortField('Age')"><a>Age</a></li>
                 <li class="sort-list-item" @click="updateSortField('Name')"><a>Name</a></li>
             </ul>
+        </div>
 
+        <div class="order-filter">
+            <!-- Breed ordering -->
+            <div :class="blockSortOrderToggle ? 'tooltip cursor-not-allowed w-full' : ''"
+                data-tip="Sorting requires more filters">
+                <button class="btn dropdown-button sort-button w-full" @click="$emit('updateSortOrder')"
+                    :disabled="blockSortOrderToggle">
+                    Sort: {{ sortOrder === "asc" ? "Asce" : "Desc" }}
+                </button>
+            </div>
+        </div>
+
+        <div class="search-button-container">
             <!-- Search Button (Now applies filters) -->
-            <button class="btn btn-primary" @click="applyFilters">
+            <button class="btn btn-primary w-full" @click="applyFilters">
                 <svg class="h-[1em] opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                     <g stroke-linejoin="round" stroke-linecap="round" stroke-width="2.5" fill="none"
                         stroke="currentColor">
@@ -116,18 +127,19 @@ export default {
 <style scoped>
 .sort-button:disabled {
     opacity: .35;
+    width: 100%;
 }
 
 .zip-input {
     background-color: white;
     border: 1px solid black;
-    width: 250px;
 }
 
 .age-input {
     background-color: white;
     border: 1px solid black;
-    width: 100px;
+    min-width: 100px;
+    width: 100%;
 }
 
 .dropdown-button {
@@ -145,5 +157,94 @@ export default {
 .sort-list-item {
     background-color: #F2F2F2;
     color: black;
+}
+
+@media (max-width: 1625px) {
+    .dog-filters-container {
+        display: grid;
+        padding: 20px 40px;
+        height: auto;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+    }
+
+    .breed-filter {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    .zip-filter {
+        grid-area: 1 / 3 / 2 / 5;
+    }
+
+    .min-age-filter {
+        grid-area: 2 / 1 / 3 / 2;
+    }
+
+    .max-age-filter {
+        grid-area: 2 / 2 / 3 / 3;
+    }
+
+    .sort-filter {
+        grid-area: 2 / 3 / 3 / 4;
+    }
+
+    .order-filter {
+        grid-area: 2 / 4 / 3 / 5;
+    }
+
+    .search-button-container {
+        grid-area: 2 / 5 / 3 / 6;
+    }
+}
+
+@media (max-width: 1105px) {
+    .dropdown-button {
+        display: block;
+        width: 100%;
+        /* Ensures it takes full width */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .dog-filters-container {
+        display: grid;
+        padding: 20px 40px;
+        height: auto;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 10px;
+        grid-row-gap: 10px;
+    }
+
+    .breed-filter {
+        grid-area: 1 / 1 / 2 / 3;
+    }
+
+    .zip-filter {
+        grid-area: 1 / 3 / 2 / 5;
+    }
+
+    .min-age-filter {
+        grid-area: 2 / 1 / 3 / 3;
+    }
+
+    .max-age-filter {
+        grid-area: 2 / 3 / 3 / 5;
+    }
+
+    .sort-filter {
+        grid-area: 3 / 1 / 4 / 3;
+    }
+
+    .order-filter {
+        grid-area: 3 / 3 / 4 / 5;
+    }
+
+    .search-button-container {
+        grid-area: 4 / 1 / 5 / 5;
+    }
 }
 </style>

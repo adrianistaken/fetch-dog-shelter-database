@@ -19,7 +19,7 @@ export default {
         const currentFrom = ref(null);
         const nextFrom = ref(null);
         const prevFrom = ref(null);
-        const perPage = 12;
+        const perPage = 25;
 
         const selectedZipCodes = ref([]);
         const selectedAgeMin = ref(null);
