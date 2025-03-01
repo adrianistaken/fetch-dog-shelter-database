@@ -15,7 +15,7 @@ cd fetch-take-home
 npm install
 ```
 
-### **3️⃣ Start the Development Server**
+### **3️⃣ Start the Development Servery**
 ```
 npm run dev
 ```
@@ -26,6 +26,6 @@ npm run build
 ```
 
 ### **📞 Contact**
-📧 Email: [adrian.rodriguez.dev@gmail.com](adrian.rodriguez.dev@gmail.com)
+📧 Email: [adrian.rodriguez.dev@gmail.com](mailto:adrian.rodriguez.dev@gmail.com)  
 
 🐙 GitHub: [adrianistaken](https://github.com/adrianistaken)
