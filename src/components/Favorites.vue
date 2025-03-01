@@ -1,5 +1,5 @@
 <script>
-import { inject, ref } from "vue";
+import { inject, ref, computed } from "vue";
 import DogCard from "./DogCard.vue";
 import FindMatch from "./FindMatch.vue";
 import { DogService } from "../Services/DogService";
@@ -25,14 +25,16 @@ export default {
             }
         };
 
-        return { favorites, matchedDog, findMatch };
+        const hasFavorite = computed(() => favorites.value.length > 0);
+
+        return { favorites, matchedDog, hasFavorite, findMatch };
     },
 };
 </script>
 
 <template>
     <div>
-        <FindMatch :matchedDog="matchedDog" @findMatch="findMatch" />
+        <FindMatch :matchedDog="matchedDog" @findMatch="findMatch" :hasFavorite="hasFavorite" />
 
         <div v-if="favorites.length === 0">No favorited dogs yet.</div>
         <div v-else class="dog-list">
