@@ -154,11 +154,11 @@ export default {
         </div>
 
         <div class="join w-full justify-center mt-12">
-            <button class="join-item btn" :disabled="!prevFrom" @click="prevPage">
+            <button class="join-item btn" :disabled="!prevFrom || loading" @click="prevPage">
                 <img width="25" height="100" src="https://img.icons8.com/ios-filled/100/back.png" alt="back" />
             </button>
             <button class="join-item btn text-black">{{ currentPage }}</button>
-            <button class="join-item btn" :disabled="!nextFrom" @click="nextPage">
+            <button class="join-item btn" :disabled="!nextFrom || loading" @click="nextPage">
                 <img width="25" height="100" src="https://img.icons8.com/ios-filled/100/forward--v1.png"
                     alt="forward" />
             </button>
