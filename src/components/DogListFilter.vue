@@ -175,7 +175,7 @@ export default {
     }
 
     .zip-filter {
-        grid-area: 1 / 3 / 2 / 5;
+        grid-area: 1 / 3 / 2 / 6;
     }
 
     .min-age-filter {
